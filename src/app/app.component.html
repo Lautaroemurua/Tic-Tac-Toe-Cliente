@@ -1,0 +1,74 @@
+<!-- 
+ @author Lautaro Murua
+ Examen tecnico Silstech
+-->
+
+<!--Sala de emparejamiento  -->
+<div class="container">
+	<div class="row heading-row">
+		<div class="col-md-12 text-center app-heading">
+			<h2>{{title}}</h2>
+		</div>
+		<div class="col-md-6 text-center">
+			<div class="player-heading" [class.current-player]="displayPlayerTurn">
+				Jugador 1
+			</div>
+		</div>
+		<div class="col-md-6 text-center">
+			<div class="player-heading"  [class.current-player]="!displayPlayerTurn">
+				Jugador 2
+			</div>
+		</div>
+	</div>	
+	<div class="row game-row">
+		<div class="text-center game-container">
+			<table id="game" class="game-grid" #game>
+				<tr *ngFor="let iterationNumber of gameGrid">
+					<td *ngFor="let number of iterationNumber"
+ 						class="grid-{{number}}"
+						id="grid{{number}}" (click)="play(number)">
+							{{ renderPlayedText(number)}}
+					</td>
+				</tr>
+			</table>
+			<br/>
+			<h6 class="text-center">Estas en la sala {{roomNumber}}.</h6>
+		</div>
+	</div>
+</div>
+
+<!-- Crea o selecciona la room -->
+<ng-template #content>
+	<div class="modal-header">
+		<span>Total de salas :{{totalRooms}}</span>
+  	</div>
+  	<div class="modal-body">
+    	<div class="container">
+			<div class="join-game" [hidden]="roomNumber > 0 ? true :false">
+				<div class="room-list">
+					<h6 class="text-center">Salas disponibles</h6>
+					<ul class="nav nav-pills">
+						<li class="nav-item room-number" *ngFor="let number of emptyRooms">
+							<a class="nav-link active" title="Join room Number {{number}}" (click)="joinRoom(number)">#{{number}}</a>
+						</li>
+					</ul>
+				</div>
+				<div class="create-room text-center">
+					<h5>
+						<span>O</span>
+					</h5>
+					<button class="btn btn-primary" (click)="createRoom()"> Crear nueva sala</button>
+				</div>
+			</div>
+			<br>
+			<div class="player-waitng" [hidden]="roomNumber > 0 ? false :true">
+				<h2 class="text-center">Esperando que se una algun jugador a la sala</h2>
+				<br/>
+				<img class="game-loader" src="assets/img/loader.gif">
+				<br/>
+				<br/>
+				<h6 class="text-center">Estas en la sala numero {{roomNumber}}, Desafia a un amigo en la sala {{roomNumber}}</h6>
+			</div>
+		</div>
+  	</div>
+</ng-template>
